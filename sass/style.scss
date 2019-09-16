@@ -74,6 +74,7 @@ body {
 
 .posts {
     flex: 3 0 0;
+    position: relative;
 }
 
 .sidebar,
@@ -83,6 +84,7 @@ body {
     padding: 40px;
     border: 0px solid $color-dark;
     border-radius: 15px;
+    position: relative;
 }
 
 /* Logo */
@@ -153,9 +155,15 @@ body {
 /* Post */
 
 .post {
-    display: none;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 40px;
     &.active {
-        display: block;
+        opacity: 1;
+        z-index: 1;
     }
 }
 
@@ -180,35 +188,35 @@ body {
     .wrapper {
         flex-direction: column;
     }
-}
 
-.list {
-    li {
-        display: inline-block;
-        margin-right: 15px;
+    .list {
+        li {
+            display: inline-block;
+            margin-right: 15px;
+        }
     }
-}
 
-.posts {
-    padding-top: 0px;
-}
-
-.sidebar {
-    padding-top: 0;
-    padding-bottom: 20px;
-}
-
-.logo {
-    &::before {
-        width: 150px;
-        height: 100px;
-        left: -75px;
-        top: -35px;
+    .posts {
+        padding-top: 0px;
     }
-    &::after {
-        width: 150px;
-        height: 100px;
-        right: -105px;
-        top: -40px;
+
+    .sidebar {
+        padding-top: 0;
+        padding-bottom: 20px;
+    }
+
+    .logo {
+        &::before {
+            width: 150px;
+            height: 100px;
+            left: -75px;
+            top: -35px;
+        }
+        &::after {
+            width: 150px;
+            height: 100px;
+            right: -105px;
+            top: -40px;
+        }
     }
 }
