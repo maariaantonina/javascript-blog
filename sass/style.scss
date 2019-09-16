@@ -4,6 +4,8 @@
 
 $color-light: #fff;
 $color-dark: #444;
+$color-red: #c15966;
+$color-background: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
 
 $font-logo: 'Sacramento', cursive;
 $font-header: 'Oswald', sans-serif;
@@ -11,110 +13,165 @@ $font-text: 'Source Sans Pro', sans-serif;
 
 /* Global */
 
-*, *::before, *::after {
-  box-sizing: border-box;
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
 }
 
 body {
-  background: $color-light;
-  font-family: $font-text;
-  color: $color-dark;
-  font-weight: 300;
-  font-size: 16px;
-  line-height: 1.7;
+    background-image: $color-background;
+    font-family: $font-text;
+    color: $color-dark;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 1.7;
 }
 
 .container {
-  max-width: 1140px;
-  margin: 0 auto;
+    max-width: 1140px;
+    margin: 0 auto;
 }
 
 .section-title {
-  font-size: 22px;
-  text-transform: uppercase;
-  font-family: $font-header;
-  font-weight: 600;
-  span {
-    text-transform: none;
-    font-weight: 400;
-    color: lighten($color-dark, 20%);
-  }
+    font-size: 22px;
+    text-transform: uppercase;
+    font-family: $font-header;
+    font-weight: 600;
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    span {
+        text-transform: none;
+        font-weight: 400;
+        color: lighten($color-dark, 20%);
+    }
+    &::before {
+        content: '';
+        width: 100%;
+        height: 25%;
+        background-color: $color-red;
+
+        position: absolute;
+        left: 0;
+        bottom: 2px;
+        z-index: -1;
+        transform: rotate(-2deg);
+        transform-origin: left bottom;
+    }
 }
 
 /* Layout */
 
 .wrapper {
-  display: flex;
-  margin-left: 10px;
+    display: flex;
+    margin-left: 10px;
 }
 
 .sidebar {
-  flex: 1 0 0;
+    flex: 1 0 0;
 }
 
 .posts {
-  flex: 2 0 0;
+    flex: 3 0 0;
 }
 
-.sidebar, .posts {
-  background: $color-light;
-  margin-right: 10px;
-  padding: 40px;
-  border: 1px solid $color-dark;
-  border-radius: 5px;
+.sidebar,
+.posts {
+    background: $color-light;
+    margin-right: 20px;
+    padding: 40px;
+    border: 0px solid $color-dark;
+    border-radius: 15px;
 }
 
 /* Logo */
 
 .logo {
-  font-family: $font-logo;
-  font-weight: 400;
-  font-size: 104px;
-  line-height: 1;
-  text-align: center;
+    font-family: $font-logo;
+    font-weight: 400;
+    font-size: 104px;
+    line-height: 1;
+    text-align: center;
+    display: inline-block;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 40px auto;
+    &::before {
+        content: '';
+        position: absolute;
+        background-image: url('../images/granat-01.png');
+        width: 200px;
+        height: 150px;
+        left: -125px;
+        top: -55px;
+        background-size: cover;
+    }
+    &::after {
+        content: '';
+        position: absolute;
+        background-image: url('../images/granat-01.png');
+        width: 200px;
+        height: 150px;
+        right: -175px;
+        bottom: -55px;
+        background-size: cover;
+        transform: rotate(45deg);
+    }
 }
 
 /* Lists */
 
 .list {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  .active {
-    font-weight: bold;
-  }
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    a {
+        text-decoration: none;
+        color: $color-red;
+    }
+    .active {
+        font-weight: bold;
+    }
 }
 
 .list-horizontal {
-  li {
-    display: inline-block;
-  }
+    li {
+        display: inline-block;
+    }
 }
 
 /* Authors */
 
 .authors {
-  li {
-    margin-bottom: 12px;
-  }
+    li {
+        margin-bottom: 12px;
+    }
 }
 
 /* Post */
 
 .post {
-  display: none;
-  &.active {
-    display: block;
-  }
+    display: none;
+    &.active {
+        display: block;
+    }
+}
+
+.post-title {
+    font-family: $font-text;
+    font-size: 1.4em;
+    margin-bottom: 0;
 }
 
 .post-author {
-  font-style: italic;
+    font-style: italic;
 }
 
 .post-tags {
-  display: flex;
-  p {
-    margin: 0 10px 0 0;
-  }
+    display: flex;
+    p {
+        margin: 0 10px 0 0;
+    }
 }
