@@ -50,7 +50,8 @@
         titleList.innerHTML = '';
         /* for each article */
         const articles = document.querySelectorAll(optArticleSelector);
-        let html = '';
+        let el;
+        let fragment = document.createDocumentFragment();
         for (let article of articles) {
             /* get the article id */
             const articleId = article.getAttribute('id');
@@ -58,20 +59,16 @@
             const articleTitle = article.querySelector(optTitleSelector)
                 .innerHTML;
             /* create HTML of the link */
-            const linkHtml =
-                '<li><a href="#' +
+            el = document.createElement('li');
+            el.innerHTML =
+                '<a href="#' +
                 articleId +
                 '"><span>' +
                 articleTitle +
-                '</span></a></li>';
-            console.log(linkHtml);
-            /* insert link into titleList */
-            //titleList.insertAdjacentHTML('beforeend', linkHtml);
-            /* insert link into html variable */
-            html = html + linkHtml;
+                '</span></a>';
+            fragment.appendChild(el);
         }
-        titleList.innerHTML = html;
-        console.log(html);
+        titleList.appendChild(fragment);
     }
 
     generateTitleLinks();
