@@ -75,16 +75,23 @@ body {
 .posts {
     flex: 3 0 0;
     position: relative;
+    overflow: auto;
 }
 
 .sidebar,
 .posts {
     background: $color-light;
     margin-right: 20px;
-    padding: 40px;
     border: 0px solid $color-dark;
     border-radius: 15px;
-    position: relative;
+    padding: 40px;
+}
+
+.new {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
 }
 
 /* Logo */
@@ -160,7 +167,7 @@ body {
     position: absolute;
     top: 0;
     left: 0;
-    padding: 40px;
+    padding: inherit;
     &.active {
         opacity: 1;
         z-index: 1;
