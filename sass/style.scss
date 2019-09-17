@@ -180,35 +180,35 @@ body {
     .wrapper {
         flex-direction: column;
     }
-}
 
-.list {
-    li {
-        display: inline-block;
-        margin-right: 15px;
+    .list {
+        li {
+            display: inline-block;
+            margin-right: 15px;
+        }
     }
-}
 
-.posts {
-    padding-top: 0px;
-}
-
-.sidebar {
-    padding-top: 0;
-    padding-bottom: 20px;
-}
-
-.logo {
-    &::before {
-        width: 150px;
-        height: 100px;
-        left: -75px;
-        top: -35px;
+    .posts {
+        padding-top: 0px;
     }
-    &::after {
-        width: 150px;
-        height: 100px;
-        right: -105px;
-        top: -40px;
+
+    .sidebar {
+        padding-top: 0;
+        padding-bottom: 20px;
+    }
+
+    .logo {
+        &::before {
+            width: 150px;
+            height: 100px;
+            left: -75px;
+            top: -35px;
+        }
+        &::after {
+            width: 150px;
+            height: 100px;
+            right: -105px;
+            top: -40px;
+        }
     }
 }
