@@ -42,16 +42,18 @@
 
   const optArticleSelector = '.post',
     optTitleSelector = '.post-title',
-    optTitleListSelector = '.titles';
-  optArticleTagsSelector = '.post-tags .list'
+    optTitleListSelector = '.titles',
+    optArticleTagsSelector = '.post-tags .list';
 
-  function generateTitleLinks() {
+  function generateTitleLinks(customSelector = '') {
     /* remove contents of titleList */
     const titleList = document.querySelector(optTitleListSelector);
     titleList.innerHTML = '';
     /* for each article */
-    const articles = document.querySelectorAll(optArticleSelector);
-    let html = '';
+    const articles = document.querySelectorAll(optArticleSelector + customSelector);
+    console.log(optArticleSelector + customSelector);
+    let el;
+    let fragment = document.createDocumentFragment();
     for (let article of articles) {
       /* get the article id */
       const articleId = article.getAttribute('id');
@@ -59,20 +61,16 @@
       const articleTitle = article.querySelector(optTitleSelector)
         .innerHTML;
       /* create HTML of the link */
-      const linkHtml =
-        '<li><a href="#' +
+      el = document.createElement('li');
+      el.innerHTML =
+        '<a href="#' +
         articleId +
         '"><span>' +
         articleTitle +
-        '</span></a></li>';
-      console.log(linkHtml);
-      /* insert link into titleList */
-      //titleList.insertAdjacentHTML('beforeend', linkHtml);
-      /* insert link into html variable */
-      html = html + linkHtml;
+        '</span></a>';
+      fragment.appendChild(el);
     }
-    titleList.innerHTML = html;
-    console.log(html);
+    titleList.appendChild(fragment);
   }
 
   generateTitleLinks();
@@ -103,7 +101,7 @@
       /* START LOOP: for each tag */
       for (let tag of articleTagsArray) {
         /* generate HTML of the link */
-        const linkHtml = '<li><a href="#tag-' + tag + '">' + tag + ' </a></li>';
+        const linkHtml = '<li><a href="#tag-' + tag + '">' + tag + '</a></li>';
         console.log(linkHtml);
         /* add generated code to html variable */
         html = html + linkHtml;
@@ -117,4 +115,48 @@
 
   generateTags();
 
+  function tagClickHandler(event) {
+    /* prevent default action for this event */
+    event.preventDefault();
+    /* make new constant named "clickedElement" and give it the value of "this" */
+    const clickedElement = this;
+    /* make a new constant "href" and read the attribute "href" of the clicked element */
+    const href = clickedElement.getAttribute('href');
+    console.log(href);
+    /* make a new constant "tag" and extract tag from the "href" constant */
+    const tag = href.replace('#tag-', '');
+    console.log(tag);
+    /* find all tag links with class active */
+    const tagLinks = document.querySelectorAll('a.active[href^="#tag-"]');
+    /* START LOOP: for each active tag link */
+    for (let tagLink of tagLinks) {
+      /* remove class active */
+      tagLink.classList.remove('active');
+      /* END LOOP: for each active tag link */
+    }
+    /* find all tag links with "href" attribute equal to the "href" constant */
+    const selectedLinks = document.querySelectorAll('a[href="' + href + '"]');
+    console.log(selectedLinks);
+    /* START LOOP: for each found tag link */
+    for (let selectedLink of selectedLinks) {
+      /* add class active */
+      selectedLink.classList.add('active');
+      console.log(selectedLink);
+      /* END LOOP: for each found tag link */
+    }
+    /* execute function "generateTitleLinks" with article selector as argument */
+    generateTitleLinks('[data-tags~="' + tag + '"]');
+  }
+
+  function addClickListenersToTags() {
+    /* find all links to tags */
+    const tagLinks = document.querySelectorAll('a[href^="#tag-"]');
+    /* START LOOP: for each link */
+    for (let tagLink of tagLinks) {
+      /* add tagClickHandler as event listener for that link */
+      tagLink.addEventListener('click', tagClickHandler);
+      /* END LOOP: for each link */
+    }
+  }
+  addClickListenersToTags();
 }
