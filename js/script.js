@@ -28,7 +28,8 @@
     optTitleSelector = '.post-title',
     optTitleListSelector = '.titles',
     optArticleTagsSelector = '.post-tags .list',
-    optArticleAuthorSelector = '.post-author';
+    optArticleAuthorSelector = '.post-author',
+    optTagsListSelector = '.tags.list';
 
   function generateTitleLinks(customSelector = '') {
     const titleList = document.querySelector(optTitleListSelector);
@@ -61,6 +62,7 @@
   }
 
   function generateTags() {
+    let allTags = [];
     const articles = document.querySelectorAll(optArticleSelector);
     for (let article of articles) {
       const tags = article.querySelector(optArticleTagsSelector);
@@ -70,8 +72,13 @@
       for (let tag of articleTagsArray) {
         const linkHtml = '<li><a href="#tag-' + tag + '">' + tag + '</a></li>';
         html = html + linkHtml;
+        if (allTags.indexOf(linkHtml) == -1) {
+          allTags.push(linkHtml);
+        }
       }
+      const tagList = document.querySelector('.tags');
       tags.innerHTML = html;
+      tagList.innerHTML = allTags.join(' ');
     }
   }
 
