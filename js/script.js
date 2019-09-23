@@ -62,7 +62,7 @@
   }
 
   function generateTags() {
-    let allTags = [];
+    let allTags = {};
     const articles = document.querySelectorAll(optArticleSelector);
     for (let article of articles) {
       const tags = article.querySelector(optArticleTagsSelector);
@@ -72,13 +72,19 @@
       for (let tag of articleTagsArray) {
         const linkHtml = '<li><a href="#tag-' + tag + '">' + tag + '</a></li>';
         html = html + linkHtml;
-        if (allTags.indexOf(linkHtml) == -1) {
-          allTags.push(linkHtml);
+        if (!allTags.hasOwnProperty(tag)) {
+          allTags[tag] = 1;
+        } else {
+          allTags[tag]++;
         }
       }
       const tagList = document.querySelector('.tags');
       tags.innerHTML = html;
-      tagList.innerHTML = allTags.join(' ');
+      let allTagsHTML = '';
+      for (let tag in allTags) {
+        allTagsHTML += tag + ' (' + allTags[tag] + ') ';
+      }
+      tagList.innerHTML = allTagsHTML;
     }
   }
 
