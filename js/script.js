@@ -2,9 +2,7 @@
   const titleClickHandler = function (event) {
     event.preventDefault();
     const clickedElement = this;
-
     const activeLinks = document.querySelectorAll('.titles a.active');
-
     for (let activeLink of activeLinks) {
       activeLink.classList.remove('active');
     }
@@ -66,7 +64,6 @@
   function calculateTagsParams(tags) {
     let params = { min: 10000, max: 0 };
     for (let tag in tags) {
-      console.log(tag, 'is used', tags[tag]);
       params.max = Math.max(tags[tag], params.max);
       params.min = Math.min(tags[tag], params.min);
     }
@@ -103,7 +100,6 @@
       let allTagsHTML = '';
       for (let tag in allTags) {
         const tagLinkHTML = '<li><a href="#tag-' + tag + '" class="' + calculateTagClass(allTags[tag], tagsParams) + '">' + tag + '</a></li>';
-        console.log('taglinkHTML', tagLinkHTML);
         allTagsHTML += tagLinkHTML;
       }
       tagList.innerHTML = allTagsHTML;
@@ -117,11 +113,11 @@
     const clickedElement = this;
     const href = clickedElement.getAttribute('href');
     const tag = href.replace('#tag-', '');
-    const tagLinks = document.querySelectorAll('a.active[href^="#tag-"]');
+    const tagLinks = document.querySelectorAll('a[href^="#tag-"]');
     for (let tagLink of tagLinks) {
       tagLink.classList.remove('active');
     }
-    const selectedLinks = document.querySelectorAll('a[href="' + href + '"]');
+    const selectedLinks = document.querySelectorAll('a[href^="#tag-' + tag + '"]');
     for (let selectedLink of selectedLinks) {
       selectedLink.classList.add('active');
     }
@@ -130,10 +126,12 @@
 
   function addClickListenersToTags() {
     const tagLinks = document.querySelectorAll('a[href^="#tag-"]');
+    console.log(tagLinks);
     for (let tagLink of tagLinks) {
       tagLink.addEventListener('click', tagClickHandler);
     }
   }
+  addClickListenersToTags();
 
   function generateAuthors() {
     const articles = document.querySelectorAll(optArticleSelector);
