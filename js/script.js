@@ -6,19 +6,13 @@
     for (let activeLink of activeLinks) {
       activeLink.classList.remove('active');
     }
-
     clickedElement.classList.add('active');
-
     const activeArticles = document.querySelectorAll('article.active');
-
     for (let activeArticle of activeArticles) {
       activeArticle.classList.remove('active');
     }
-
     const attHref = clickedElement.getAttribute('href');
-
     const selectedArticle = document.querySelector(attHref);
-
     selectedArticle.classList.add('active');
   };
 
@@ -27,9 +21,12 @@
     optTitleListSelector = '.titles',
     optArticleTagsSelector = '.post-tags .list',
     optArticleAuthorSelector = '.post-author',
-    optTagsListSelector = '.list .tags',
+    optTagListSelector = '.tags',
+    optAuthorsListSelector = '.authors',
     optCloudClassCount = 5,
     optCloudClassPrefix = 'tag-size-';
+
+
 
   function generateTitleLinks(customSelector = '') {
     const titleList = document.querySelector(optTitleListSelector);
@@ -94,7 +91,7 @@
           allTags[tag]++;
         }
       }
-      const tagList = document.querySelector('.tags');
+      const tagList = document.querySelector(optTagListSelector);
       tags.innerHTML = html;
       const tagsParams = calculateTagsParams(allTags);
       let allTagsHTML = '';
@@ -126,7 +123,6 @@
 
   function addClickListenersToTags() {
     const tagLinks = document.querySelectorAll('a[href^="#tag-"]');
-    console.log(tagLinks);
     for (let tagLink of tagLinks) {
       tagLink.addEventListener('click', tagClickHandler);
     }
@@ -134,6 +130,7 @@
   addClickListenersToTags();
 
   function generateAuthors() {
+    let allAuthors = {};
     const articles = document.querySelectorAll(optArticleSelector);
     for (let article of articles) {
       const author = article.querySelector(optArticleAuthorSelector);
@@ -142,7 +139,19 @@
       const linkHtml = 'by <a href="#author-' + articleAuthor + '">' + articleAuthor + '</a>';
       html = html + linkHtml;
       author.innerHTML = html;
+      if (!allAuthors.hasOwnProperty(articleAuthor)) {
+        allAuthors[articleAuthor] = 1;
+      } else {
+        allAuthors[articleAuthor]++;
+      }
     }
+    let authorsList = document.querySelector(optAuthorsListSelector);
+    let allAuthorsHTML = '';
+    for (let author in allAuthors) {
+      allAuthorsHTML += '<li><a href="#author-' + author + '">' + author + ' (' + allAuthors[author] + ') </a></li>';
+    }
+    authorsList.innerHTML = allAuthorsHTML;
+
   }
 
   generateAuthors();
