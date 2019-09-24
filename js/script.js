@@ -1,4 +1,10 @@
 {
+  const templates = {
+    articleLink: Handlebars.compile(document.querySelector('#template-article-link').innerHTML),
+    tagLink: Handlebars.compile(document.querySelector('#template-tag-link').innerHTML),
+    authorLink: Handlebars.compile(document.querySelector('#template-author-link').innerHTML),
+  }
+
   const opts = {
     articleSelector: '.post',
     titleSelector: '.post-title',
@@ -26,28 +32,20 @@
     const attHref = clickedElement.getAttribute('href');
     const selectedArticle = document.querySelector(attHref);
     selectedArticle.classList.add('active');
-  }
+  };
 
   function generateTitleLinks(customSelector = '') {
     const titleList = document.querySelector(opts.titleListSelector);
     titleList.innerHTML = '';
     const articles = document.querySelectorAll(opts.articleSelector + customSelector);
-    let el;
-    let fragment = document.createDocumentFragment();
     for (let article of articles) {
       const articleId = article.getAttribute('id');
       const articleTitle = article.querySelector(opts.titleSelector)
         .innerHTML;
-      el = document.createElement('li');
-      el.innerHTML =
-        '<a href="#' +
-        articleId +
-        '"><span>' +
-        articleTitle +
-        '</span></a>';
-      fragment.appendChild(el);
+      const linkHTMLData = { id: articleId, title: articleTitle };
+      const linkHTML = templates.articleLink(linkHTMLData);
+      document.querySelector('.titles').insertAdjacentHTML('beforeend', linkHTML);
     }
-    titleList.appendChild(fragment);
   }
 
   generateTitleLinks();
@@ -68,10 +66,10 @@
   }
 
   function calculateTagClass(count, params) {
-    const paramsDelta = params.max - params.min
+    const paramsDelta = params.max - params.min;
     const tagPercentage = (count - params.min) / paramsDelta;
     const classNumber = Math.floor((tagPercentage * (opts.cloudClassCount - 1)) + 1);
-    return opts.cloudClassPrefix + classNumber
+    return opts.cloudClassPrefix + classNumber;
   }
 
   function generateTags() {
@@ -134,11 +132,10 @@
     const articles = document.querySelectorAll(opts.articleSelector);
     for (let article of articles) {
       const author = article.querySelector(opts.articleAuthorSelector);
-      let html = '';
       const articleAuthor = article.getAttribute('data-author');
-      const linkHtml = 'by <a href="#author-' + articleAuthor + '">' + articleAuthor + '</a>';
-      html = html + linkHtml;
-      author.innerHTML = html;
+      const linkHTMLData = { id: articleAuthor, title: articleAuthor };
+      const linkHTML = templates.authorLink(linkHTMLData);
+      author.innerHTML = linkHTML;
       if (!allAuthors.hasOwnProperty(articleAuthor)) {
         allAuthors[articleAuthor] = 1;
       } else {
