@@ -133,12 +133,30 @@ body {
   a {
     text-decoration: none;
     color: $color-red;
+
   }
 
   .active {
     font-weight: bold;
   }
+
 }
+.tags {
+  li {
+    display: inline-block;
+    margin-right: 5px;
+  }
+}
+
+.tag-size-1 {font-size: 100%;}
+
+.tag-size-2 {font-size: 120%;}
+
+.tag-size-3 {font-size: 140%;}
+
+.tag-size-4 {font-size: 160%;}
+
+.tag-size-5 {font-size: 180%;}
 
 .list-horizontal {
   li {
@@ -173,6 +191,7 @@ body {
 
 .post-author {
   font-style: italic;
+
   a {
     text-decoration: none;
     color: $color-red;
