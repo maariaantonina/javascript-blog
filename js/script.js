@@ -3,7 +3,8 @@
     articleLink: Handlebars.compile(document.querySelector('#template-article-link').innerHTML),
     tagLink: Handlebars.compile(document.querySelector('#template-tag-link').innerHTML),
     authorLink: Handlebars.compile(document.querySelector('#template-author-link').innerHTML),
-  }
+    tagCloudLink: Handlebars.compile(document.querySelector('#template-tag-cloud-link').innerHTML),
+  };
 
   const opts = {
     articleSelector: '.post',
@@ -44,7 +45,7 @@
         .innerHTML;
       const linkHTMLData = { id: articleId, title: articleTitle };
       const linkHTML = templates.articleLink(linkHTMLData);
-      document.querySelector('.titles').insertAdjacentHTML('beforeend', linkHTML);
+      document.querySelector(opts.titleListSelector).insertAdjacentHTML('beforeend', linkHTML);
     }
   }
 
@@ -77,27 +78,31 @@
     const articles = document.querySelectorAll(opts.articleSelector);
     for (let article of articles) {
       const tags = article.querySelector(opts.articleTagsSelector);
-      let html = '';
       const articleTags = article.getAttribute('data-tags');
       const articleTagsArray = articleTags.split(' ');
+      let articleTagsList = '';
       for (let tag of articleTagsArray) {
-        const linkHtml = '<li><a href="#tag-' + tag + '">' + tag + '</a></li>';
-        html = html + linkHtml;
+        const linkHTMLData = { id: tag, title: tag };
+        const linkHTML = templates.tagLink(linkHTMLData);
+        articleTagsList += linkHTML;
         if (!allTags.hasOwnProperty(tag)) {
           allTags[tag] = 1;
         } else {
           allTags[tag]++;
         }
       }
+      tags.innerHTML = articleTagsList;
       const tagList = document.querySelector(opts.tagListSelector);
-      tags.innerHTML = html;
       const tagsParams = calculateTagsParams(allTags);
-      let allTagsHTML = '';
+      const allTagsData = { tags: [] };
       for (let tag in allTags) {
-        const tagLinkHTML = '<li><a href="#tag-' + tag + '" class="' + calculateTagClass(allTags[tag], tagsParams) + '">' + tag + '</a></li>';
-        allTagsHTML += tagLinkHTML;
+        allTagsData.tags.push({
+          tag: tag,
+          count: allTags[tag],
+          className: calculateTagClass(allTags[tag], tagsParams)
+        });
       }
-      tagList.innerHTML = allTagsHTML;
+      tagList.innerHTML = templates.tagCloudLink(allTagsData);
     }
   }
 
