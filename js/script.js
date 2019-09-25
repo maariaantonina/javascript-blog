@@ -4,6 +4,7 @@
     tagLink: Handlebars.compile(document.querySelector('#template-tag-link').innerHTML),
     authorLink: Handlebars.compile(document.querySelector('#template-author-link').innerHTML),
     tagCloudLink: Handlebars.compile(document.querySelector('#template-tag-cloud-link').innerHTML),
+    authorsListLink: Handlebars.compile(document.querySelector('#template-authors-list-link').innerHTML),
   };
 
   const opts = {
@@ -148,12 +149,15 @@
       }
     }
     let authorsList = document.querySelector(opts.authorsListSelector);
-    let allAuthorsHTML = '';
+    const allAuthorsData = { authors: [] };
     for (let author in allAuthors) {
-      allAuthorsHTML += '<li><a href="#author-' + author + '">' + author + ' (' + allAuthors[author] + ') </a></li>';
+      allAuthorsData.authors.push({
+        author: author,
+        count: allAuthors[author]
+      });
     }
-    authorsList.innerHTML = allAuthorsHTML;
-
+    authorsList.innerHTML = templates.authorsListLink(allAuthorsData);
+    console.log(allAuthorsData);
   }
 
   generateAuthors();
