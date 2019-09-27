@@ -84,11 +84,7 @@
         const linkHTMLData = { id: tag, title: tag };
         const linkHTML = templates.tagLink(linkHTMLData);
         articleTagsList += linkHTML;
-        if (!allTags.hasOwnProperty(tag)) {
-          allTags[tag] = 1;
-        } else {
-          allTags[tag]++;
-        }
+        !allTags.hasOwnProperty(tag) ? allTags[tag] = 1 : allTags[tag]++;
       }
       tags.innerHTML = articleTagsList;
       const tagList = document.querySelector(opts.tagListSelector);
@@ -101,6 +97,7 @@
           className: calculateTagClass(allTags[tag], tagsParams)
         });
       }
+      console.log(allTagsData);
       tagList.innerHTML = templates.tagCloudLink(allTagsData);
     }
   }
@@ -139,11 +136,7 @@
       const articleAuthor = article.getAttribute('data-author');
       const linkHTMLData = { id: articleAuthor, title: articleAuthor };
       author.innerHTML = templates.authorLink(linkHTMLData);
-      if (!allAuthors.hasOwnProperty(articleAuthor)) {
-        allAuthors[articleAuthor] = 1;
-      } else {
-        allAuthors[articleAuthor]++;
-      }
+      !allAuthors.hasOwnProperty(articleAuthor) ? allAuthors[articleAuthor] = 1 : allAuthors[articleAuthor]++;
     }
     let authorsList = document.querySelector(opts.authorsListSelector);
     const allAuthorsData = { authors: [] };
