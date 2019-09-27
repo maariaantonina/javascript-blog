@@ -48,15 +48,13 @@
       const linkHTML = templates.articleLink(linkHTMLData);
       document.querySelector(opts.titleListSelector).insertAdjacentHTML('beforeend', linkHTML);
     }
+    const links = document.querySelectorAll('.titles a');
+    for (let link of links) {
+      link.addEventListener('click', titleClickHandler);
+    }
   }
 
   generateTitleLinks();
-
-  const links = document.querySelectorAll('.titles a');
-
-  for (let link of links) {
-    link.addEventListener('click', titleClickHandler);
-  }
 
   function calculateTagsParams(tags) {
     let params = { min: 10000, max: 0 };
@@ -140,8 +138,7 @@
       const author = article.querySelector(opts.articleAuthorSelector);
       const articleAuthor = article.getAttribute('data-author');
       const linkHTMLData = { id: articleAuthor, title: articleAuthor };
-      const linkHTML = templates.authorLink(linkHTMLData);
-      author.innerHTML = linkHTML;
+      author.innerHTML = templates.authorLink(linkHTMLData);
       if (!allAuthors.hasOwnProperty(articleAuthor)) {
         allAuthors[articleAuthor] = 1;
       } else {
